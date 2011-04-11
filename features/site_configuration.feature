@@ -124,3 +124,15 @@ Feature: Site configuration
     And the "_site/2009/04/05/bananas.html" file should exist
     And the "_site/2009/04/01/oranges.html" file should exist
     And the "_site/2009/03/27/apples.html" file should not exist
+
+	@i18n
+  Scenario: Change locales directory
+    Given I have an "index.html" page with language "en" that contains "{% _ test %}"
+		And I have a _mylocales directory
+    And I have a configuration file with "locales" set to "_mylocales"
+		And I have the following "en" translations in the directory "_mylocales":
+			| key  | translation |
+			| test | This is a test translation |
+    When I run jekyll
+    Then the _site directory should exist
+    And I should see "This is a test translation" in "_site/index.html"
