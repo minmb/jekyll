@@ -7,7 +7,7 @@ module Jekyll
                   :categories, :exclude, :source, :dest, :lsi, :pygments,
                   :permalink_style, :tags, :time, :future, :safe, :plugins, :limit_posts
 
-    attr_accessor :converters, :generators
+    attr_accessor :converters, :generators, :translator
 
     # Initialize the site
     #   +config+ is a Hash containing site configurations details
@@ -69,6 +69,9 @@ module Jekyll
       end.map do |c|
         c.new(self.config)
       end
+      
+      self.translator = Jekyll::Translator.new(self.config).setup
+      
     end
 
     # Do the actual work of processing the site and generating the
