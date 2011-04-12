@@ -50,3 +50,21 @@ Feature: Content internationalisation
     When I run jekyll
     Then the _site directory should exist
     And I should see "Post content: <p>bar ist das neue foo.</p>" in "_site/2011/04/11/i18n-in-action.html"
+
+	@i18n @i18n-namespaces
+	Scenario: Translate post content to post's language and strip away namespace information
+	  Given I have a _posts directory
+    And I have a _layouts directory
+    And I have a _locales directory
+    And I have the following posts:
+      | title          | date      | layout | language | content                 |
+      | i18n in action | 4/11/2011 | simple | de       | {% s_ Foo\|bar\|foo %}. |
+      | i18n in action | 5/11/2011 | simple | en       | {% s_ Foo\|bar\|foo %}. |
+    And I have a simple layout that contains "Post content: {{ content }}"
+		And I have the following "de" translations:
+			| key | translation          |
+			| foo | bar ist das neue foo |
+    When I run jekyll
+    Then the _site directory should exist
+    And I should see "Post content: <p>bar ist das neue foo.</p>" in "_site/2011/04/11/i18n-in-action.html"
+    And I should see "Post content: <p>foo.</p>" in "_site/2011/05/11/i18n-in-action.html"
