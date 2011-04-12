@@ -41,6 +41,7 @@ require 'jekyll/errors'
 require 'jekyll/plugin'
 require 'jekyll/converter'
 require 'jekyll/generator'
+require 'jekyll/translator'
 require_all 'jekyll/converters'
 require_all 'jekyll/generators'
 require_all 'jekyll/tags'
@@ -91,7 +92,11 @@ module Jekyll
         'coderay_bold_every'        => 10,
         'coderay_css'               => 'style'
       }
-    }
+    },
+    
+    'i18n' => 'fast_gettext',
+    'locales' => '_locales',
+    'language' => 'en'
   }
 
   # Generate a Jekyll configuration Hash by merging the default options
