@@ -41,6 +41,7 @@ require 'jekyll/errors'
 require 'jekyll/plugin'
 require 'jekyll/converter'
 require 'jekyll/generator'
+require 'jekyll/translator'
 require_all 'jekyll/converters'
 require_all 'jekyll/generators'
 require_all 'jekyll/tags'
@@ -101,7 +102,10 @@ module Jekyll
     },
     'redcloth'        => {
       'hard_breaks'   => true
-    }
+    },
+    'i18n' => 'fast_gettext',
+    'locales' => '_locales',
+    'language' => 'en'
   }
 
   # Public: Generate a Jekyll configuration Hash by merging the default

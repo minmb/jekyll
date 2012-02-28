@@ -7,7 +7,7 @@ module Jekyll
                   :categories, :exclude, :include, :source, :dest, :lsi, :pygments,
                   :permalink_style, :tags, :time, :future, :safe, :plugins, :limit_posts
 
-    attr_accessor :converters, :generators
+    attr_accessor :converters, :generators, :translator
 
     # Public: Initialize a new Site.
     #
@@ -91,6 +91,9 @@ module Jekyll
       end.map do |c|
         c.new(self.config)
       end
+      
+      self.translator = Jekyll::Translator.new(self.config).setup
+      
     end
 
     # Read Site data from disk and load it into internal data structures.

@@ -57,7 +57,7 @@ Given /^I have the following posts?(?: (.*) "(.*)")?:$/ do |direction, folder, t
     path = File.join(before || '.', '_posts', after || '.', "#{date}-#{title}.#{post['type'] || 'textile'}")
 
     matter_hash = {}
-    %w(title layout tag tags category categories published author).each do |key|
+    %w(title layout tag tags category categories published author language lang).each do |key|
       matter_hash[key] = post[key] if post[key]
     end
     matter = matter_hash.map { |k, v| "#{k}: #{v}\n" }.join.chomp
@@ -142,4 +142,27 @@ end
 
 Then /^I should see today's date in "(.*)"$/ do |file|
   assert_match Regexp.new(Date.today.to_s), File.open(file).readlines.join
+end
+
+Given /^I have the following "([^"]*)" translations(?: in the directory "([^"]*)")?:$/ do |language, locales, translation|
+  locales ||= "_locales"
+  File.open(File.join(locales, "#{language}.yml"), 'w') do |f|
+    f.write("#{language}:\n")
+    translation.hashes.each do |row|
+      f.write("  #{row["key"]}: #{row["translation"]}\n")
+    end
+  end
+end
+
+# Like "I have a foo file" but gives a yaml front matter in form of a table
+Given /^I have an? "(.*)" page that contains "(.*)" with the (?:following )?front matter:?$/ do |file, text, matter|
+  File.open(file, 'w') do |f|
+    f.write <<EOF
+---
+#{ matter.hashes.map { |row| [row['key'], ': ', row['value']].join }.join("\n") }
+---
+#{text}
+EOF
+    f.close
+  end
 end

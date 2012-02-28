@@ -143,3 +143,14 @@ Feature: Site configuration
     Then the _site directory should exist
     And I should see ".DS_Store" in "_site/.gitignore"
     And the "_site/.htaccess" file should not exist
+
+  Scenario: Change locales directory
+    Given I have an "index.html" page with language "en" that contains "{% _ test %}"
+		And I have a _mylocales directory
+    And I have a configuration file with "locales" set to "_mylocales"
+		And I have the following "en" translations in the directory "_mylocales":
+			| key  | translation |
+			| test | This is a test translation |
+    When I run jekyll
+    Then the _site directory should exist
+    And I should see "This is a test translation" in "_site/index.html"

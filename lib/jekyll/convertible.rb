@@ -77,6 +77,8 @@ module Jekyll
       payload["pygments_suffix"] = converter.pygments_suffix
 
       begin
+        # Set current locale if language defined in front matter
+        self.site.translator.locale = self.data['language'] || self.data['lang']
         self.content = Liquid::Template.parse(self.content).render(payload, info)
       rescue => e
         puts "Liquid Exception: #{e.message} in #{self.name}"
