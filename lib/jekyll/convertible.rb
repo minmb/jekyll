@@ -31,6 +31,7 @@ module Jekyll
         if self.content =~ /^(---\s*\n.*?\n?)^(---\s*$\n?)/m
           self.content = $POSTMATCH
           self.data = YAML.load($1)
+          self.data["layout"] ||= "default"
         end
       rescue => e
         puts "YAML Exception reading #{name}: #{e.message}"
