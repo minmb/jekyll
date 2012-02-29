@@ -20,7 +20,7 @@ module Jekyll
             require 'fast_gettext'
 
             FastGettext.add_text_domain('jekyll', :path => locales_dir, :type => :yaml)
-            FastGettext.text_domain = 'jekyll'
+            FastGettext.default_text_domain = 'jekyll'
             FastGettext.locale = @config['language'] || @config['lang'] || locale
             
           rescue LoadError
